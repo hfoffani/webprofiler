@@ -1,4 +1,3 @@
-package org.foffani;
 
 public class Main {
 
