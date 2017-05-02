@@ -1,17 +1,19 @@
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
-import org.json.*;
+import java.util.stream.Stream;
 
+import com.google.gson.internal.LinkedTreeMap;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.*;
 import org.openqa.selenium.logging.*;
 import org.openqa.selenium.remote.*;
+
+import com.google.gson.Gson;
+
 
 public class WebProfiler {
 
@@ -45,10 +47,54 @@ public class WebProfiler {
     }
 
     public void showLogs() throws Exception {
-        LogEntries entries = driver.manage().logs().get(LogType.PERFORMANCE);
-        for (LogEntry entry : entries) {
-            System.out.println(entry.getMessage());
-        }
+        processLogs()
+                .forEach(l -> System.out.println(l));
     }
 
+    public Stream<String> processLogs() throws Exception {
+        HashMap<String, LinkedTreeMap> alllogs = new HashMap<String, LinkedTreeMap>();
+        List<String> allkeys = new LinkedList<String>();
+
+        Gson gson = new Gson();
+        LogEntries entries = driver.manage().logs().get(LogType.PERFORMANCE);
+        for (LogEntry entry : entries) {
+            String msg = entry.getMessage();
+            // Map<String, String> full = gson.fromJson(msg, type);
+            LinkedTreeMap full = gson.fromJson(msg, LinkedTreeMap.class);
+            LinkedTreeMap longentry = (LinkedTreeMap)full.get("message");
+            String method = (String)longentry.get("method");
+            LinkedTreeMap pars = (LinkedTreeMap)longentry.get("params");
+            if (method.equals("Network.responseReceived")) {
+                String key = (String)pars.get("requestId");
+                LinkedTreeMap resp = (LinkedTreeMap)pars.get("response");
+                if (resp.containsKey("requestHeadersText")) {
+                    String rqmethod = (String)resp.get("requestHeadersText");
+                    int idx = rqmethod.indexOf("\r\n", 0);
+                    rqmethod = rqmethod.substring(0, idx);
+                    LinkedTreeMap<String, Object> log = new LinkedTreeMap<String, Object>();
+                    log.put("rqmethod", rqmethod);
+                    log.put("url", resp.get("url"));
+                    log.put("requestId", key);
+                    log.put("starts", ((LinkedTreeMap)resp.get("timing")).get("requestTime"));
+                    allkeys.add(key);
+                    alllogs.put(key, log);
+                    System.out.println("response rcv: " + key);
+                }
+            } else if (method.equals("Network.loadingFinished")) {
+                String key = (String)pars.get("requestId");
+                if (alllogs.containsKey(key)) {
+                    LinkedTreeMap<String, Object> log = alllogs.get(key);
+                    double ends = ((Number)pars.get("timestamp")).doubleValue();
+                    double starts = ((Number)log.get("starts")).doubleValue();
+                    log.put("ends", ends);
+                    log.put("time", (ends - starts) * 1000);
+                    System.out.println("loading fin: " + key);
+                }
+            }
+        }
+
+        return allkeys
+                .stream()
+                .map(k -> gson.toJson(alllogs.get(k)));
+    }
 }
