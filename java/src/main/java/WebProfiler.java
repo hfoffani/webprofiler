@@ -29,7 +29,7 @@ public class WebProfiler {
     }
 
     public void setUp() throws Exception {
-        System.setProperty("webdriver.chrome.driver", "/Users/hernan/Documents/eurobits/webprofiler/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/Users/hernan/Documents/Proyectos/webprofiler/chromedriver");
 
         DesiredCapabilities caps = DesiredCapabilities.chrome();
         LoggingPreferences logPrefs = new LoggingPreferences();
