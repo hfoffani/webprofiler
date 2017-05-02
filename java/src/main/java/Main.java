@@ -5,10 +5,10 @@ public class Main {
         WebProfiler wp = new WebProfiler();
         wp.setUp();
         try {
-            wp.testGoogleSearch();
+            wp.testElPais();
             wp.showLogs();
         } finally {
-            wp.tearDown();
+            wp.cleanUp();
         }
     }
 }
