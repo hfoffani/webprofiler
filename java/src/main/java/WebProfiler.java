@@ -15,11 +15,11 @@ import org.openqa.selenium.remote.*;
 import com.google.gson.Gson;
 
 
-public class WebProfiler {
+class WebProfiler {
 
     private WebDriver driver;
 
-    public void testElPais() {
+    void testElPais() {
         driver.get("http://www.elpais.com");
         WebElement element = driver.findElement(By.id("boton_buscador"));
         element.click();
@@ -30,7 +30,7 @@ public class WebProfiler {
         element.click();
     }
 
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         System.setProperty("webdriver.chrome.driver", "/Users/hernan/Documents/Proyectos/webprofiler/chromedriver");
 
         DesiredCapabilities caps = DesiredCapabilities.chrome();
@@ -42,18 +42,18 @@ public class WebProfiler {
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
-    public void cleanUp() {
+    void cleanUp() {
         driver.quit();
     }
 
-    public void showLogs() throws Exception {
+    void showLogs() throws Exception {
         processLogs()
-                .forEach(l -> System.out.println(l));
+                .forEach(System.out::println);
     }
 
-    public Stream<String> processLogs() throws Exception {
-        HashMap<String, LinkedTreeMap> alllogs = new HashMap<String, LinkedTreeMap>();
-        List<String> allkeys = new LinkedList<String>();
+    private Stream<String> processLogs() throws Exception {
+        HashMap<String, LinkedTreeMap<String, Object>> alllogs = new HashMap<>();
+        List<String> allkeys = new LinkedList<>();
 
         Gson gson = new Gson();
         LogEntries entries = driver.manage().logs().get(LogType.PERFORMANCE);
@@ -71,14 +71,13 @@ public class WebProfiler {
                     String rqmethod = (String)resp.get("requestHeadersText");
                     int idx = rqmethod.indexOf("\r\n", 0);
                     rqmethod = rqmethod.substring(0, idx);
-                    LinkedTreeMap<String, Object> log = new LinkedTreeMap<String, Object>();
+                    LinkedTreeMap<String, Object> log = new LinkedTreeMap<>();
                     log.put("rqmethod", rqmethod);
                     log.put("url", resp.get("url"));
                     log.put("requestId", key);
                     log.put("starts", ((LinkedTreeMap)resp.get("timing")).get("requestTime"));
                     allkeys.add(key);
                     alllogs.put(key, log);
-                    System.out.println("response rcv: " + key);
                 }
             } else if (method.equals("Network.loadingFinished")) {
                 String key = (String)pars.get("requestId");
@@ -88,7 +87,6 @@ public class WebProfiler {
                     double starts = ((Number)log.get("starts")).doubleValue();
                     log.put("ends", ends);
                     log.put("time", (ends - starts) * 1000);
-                    System.out.println("loading fin: " + key);
                 }
             }
         }
