@@ -11,7 +11,11 @@ public class Main {
         WebProfiler wp = new WebProfiler();
         wp.setUp();
         try {
-            BufferedReader br = new BufferedReader(new FileReader(args[0]));
+            String fileName = args[0];
+            if (!fileName.equals("-")) {
+                System.setIn(new FileInputStream(new File(fileName)));
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             br.lines()
                     .forEach(wp::RunCommand);
             wp.showLogs();
