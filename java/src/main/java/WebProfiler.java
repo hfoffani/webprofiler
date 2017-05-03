@@ -4,20 +4,23 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import com.google.gson.internal.LinkedTreeMap;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.*;
 import org.openqa.selenium.logging.*;
 import org.openqa.selenium.remote.*;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 
 
 class WebProfiler {
 
     private WebDriver driver;
+    private WebElement lastelem = null;
 
     void testElPais() {
         driver.get("http://www.elpais.com");
@@ -50,6 +53,89 @@ class WebProfiler {
         processLogs()
                 .forEach(System.out::println);
     }
+
+    void RunCommand(String commandline) {
+        commandline = commandline.trim();
+        if (commandline.charAt(0) == '#') {
+            return;
+        }
+        Pattern pattern = Pattern.compile("([^ \r\n]*)[ \t\n]*(.*)");
+        Matcher matcher = pattern.matcher(commandline);
+        String comm = matcher.group(0);
+        String args = matcher.group(1);
+        if (comm.equals("go")) {
+            driver.get(args);
+        } else if (comm.equals("findid")) {
+            lastelem = driver.findElement(By.id(args));
+        } else if (comm.equals("findname")) {
+            lastelem = driver.findElement(By.name(args));
+        } else if (comm.equals("findtext")) {
+            lastelem = driver.findElement(By.linkText(args));
+        } else if (comm.equals("click")) {
+            lastelem.click();
+        } else if (comm.equals("type")) {
+            lastelem.sendKeys(expandedString(args));
+        }
+    }
+
+    private String expandedString(String input) {
+        StringBuilder builder = new StringBuilder();
+        boolean escaped = false;
+
+        for (char c : input.toCharArray()) {
+            if (escaped) {
+                if (c == '\\') {
+                    builder.append(c);
+                } else if (c == 'n') {
+                    builder.append('\n');
+                }
+                escaped = false;
+            } else {
+                if (c == '\\')
+                    escaped = true;
+                else
+                    builder.append(c);
+            }
+        }
+        return builder.toString();
+    }
+        /*
+        lastelem = None
+def parse(command, driver):
+    global lastelem
+    command = command.lstrip()
+    if command[0] == "#":
+        return
+    rex = '([^ \r\n]*)[ \t\n]*(.*)'
+    res = re.search(rex, command)
+    comm = res.groups()[0].lower()
+    args = res.groups()[1]
+    print(">>>", comm, ": ", args)
+    if comm == 'go':
+        driver.get(args)
+    elif comm == 'findid':
+        lastelem = driver.find_element_by_id(args)
+    elif comm == 'findname':
+        lastelem = driver.find_element_by_name(args)
+    elif comm == 'findtext':
+        lastelem = driver.find_element_by_link_text(args)
+    elif comm == 'click':
+        lastelem.click()
+    elif comm == 'type':
+        escaped = False
+        for c in args:
+            if c == '\\':
+                escaped = True
+            elif c == 'n' and escaped:
+                lastelem.send_keys(keys.Keys.RETURN)
+            elif c == '\\' and escaped:
+                lastelem.send_keys('\\')
+            else:
+                escaped = False
+                lastelem.send_keys(c)
+
+
+         */
 
     private Stream<String> processLogs() throws Exception {
         HashMap<String, LinkedTreeMap<String, Object>> alllogs = new HashMap<>();
