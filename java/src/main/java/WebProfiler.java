@@ -59,23 +59,32 @@ class WebProfiler {
         if (commandline.charAt(0) == '#') {
             return;
         }
-        Pattern pattern = Pattern.compile("([^ \r\n]*)[ \t\n]*(.*)");
+        System.err.println("Run: "+ commandline);
+        Pattern pattern = Pattern.compile("([^ ]*)[ ]*(.*)");
         Matcher matcher = pattern.matcher(commandline);
-        String comm = matcher.group(0);
-        String args = matcher.group(1);
-        switch (comm) {
-            case "go":
-                driver.get(args); break;
-            case "findid":
-                lastelem = driver.findElement(By.id(args)); break;
-            case "findname":
-                lastelem = driver.findElement(By.name(args)); break;
-            case "findtext":
-                lastelem = driver.findElement(By.linkText(args)); break;
-            case "click":
-                lastelem.click(); break;
-            case "type":
-                lastelem.sendKeys(expandedString(args)); break;
+        if (matcher.matches()) {
+            String comm = matcher.group(1);
+            String args = matcher.group(2);
+            switch (comm.toLowerCase()) {
+                case "go":
+                    driver.get(args);
+                    break;
+                case "findid":
+                    lastelem = driver.findElement(By.id(args));
+                    break;
+                case "findname":
+                    lastelem = driver.findElement(By.name(args));
+                    break;
+                case "findtext":
+                    lastelem = driver.findElement(By.linkText(args));
+                    break;
+                case "click":
+                    lastelem.click();
+                    break;
+                case "type":
+                    lastelem.sendKeys(expandedString(args));
+                    break;
+            }
         }
     }
 
