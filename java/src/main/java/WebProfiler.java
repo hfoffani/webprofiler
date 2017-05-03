@@ -60,7 +60,7 @@ class WebProfiler {
             return;
         }
         System.err.println("Run: "+ commandline);
-        Pattern pattern = Pattern.compile("([^ ]*)[ ]*(.*)");
+        Pattern pattern = Pattern.compile("([^ \t]*)[ \t]*(.*)");
         Matcher matcher = pattern.matcher(commandline);
         if (matcher.matches()) {
             String comm = matcher.group(1);
