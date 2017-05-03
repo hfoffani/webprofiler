@@ -41,6 +41,10 @@ class WebProfiler {
         logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
         caps.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
 
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-gpu");
+        caps.setCapability(ChromeOptions.CAPABILITY, options);
+
         driver = new ChromeDriver(caps);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
