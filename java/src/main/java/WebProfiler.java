@@ -63,18 +63,19 @@ class WebProfiler {
         Matcher matcher = pattern.matcher(commandline);
         String comm = matcher.group(0);
         String args = matcher.group(1);
-        if (comm.equals("go")) {
-            driver.get(args);
-        } else if (comm.equals("findid")) {
-            lastelem = driver.findElement(By.id(args));
-        } else if (comm.equals("findname")) {
-            lastelem = driver.findElement(By.name(args));
-        } else if (comm.equals("findtext")) {
-            lastelem = driver.findElement(By.linkText(args));
-        } else if (comm.equals("click")) {
-            lastelem.click();
-        } else if (comm.equals("type")) {
-            lastelem.sendKeys(expandedString(args));
+        switch (comm) {
+            case "go":
+                driver.get(args); break;
+            case "findid":
+                lastelem = driver.findElement(By.id(args)); break;
+            case "findname":
+                lastelem = driver.findElement(By.name(args)); break;
+            case "findtext":
+                lastelem = driver.findElement(By.linkText(args)); break;
+            case "click":
+                lastelem.click(); break;
+            case "type":
+                lastelem.sendKeys(expandedString(args)); break;
         }
     }
 
