@@ -13,7 +13,7 @@ RUN \
 # Install chromedriver
 RUN \
     apt-get install unzip && \
-    wget -N http://chromedriver.storage.googleapis.com/2.10/chromedriver_linux64.zip -P /tmp && \
+    wget -N http://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip -P /tmp && \
     unzip /tmp/chromedriver_linux64.zip -d /tmp && \
     chmod +x /tmp/chromedriver && \
     mv -f /tmp/chromedriver /usr/local/share/chromedriver && \
