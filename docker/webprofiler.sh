@@ -1,3 +1,7 @@
-cd /headless/webprofiler
+#!/bin/bash
+
+CMDFILE=$1
 JARFILE=web-profiler-1.0-jar-with-dependencies.jar
-java -jar $JARFILE -driver /usr/bin/chromedriver -input - 
+
+cd /headless/webprofiler
+java -jar $JARFILE -driver /usr/bin/chromedriver -input $1
