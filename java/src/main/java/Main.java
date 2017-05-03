@@ -6,11 +6,8 @@ import com.beust.jcommander.JCommander;
 
 public class Main {
 
-    @Parameter(names = "-verbose", description = "Shows commands line by line")
-    boolean verbose = false;
-
     @Parameter(names = "-driver", description = "Path to chromedriver")
-    String driverpath = "./chromedriver";
+    private String driverpath = "./chromedriver";
 
     @Parameter(names = "-input", description = "Input file name")
     private String input = "-";
@@ -28,7 +25,7 @@ public class Main {
     private void run() throws Exception {
 
         WebProfiler wp = new WebProfiler();
-        wp.setUp();
+        wp.setUp(driverpath);
         try {
             if (!input.equals("-")) {
                 System.setIn(new FileInputStream(new File(input)));

@@ -33,8 +33,8 @@ class WebProfiler {
         element.click();
     }
 
-    void setUp() throws Exception {
-        System.setProperty("webdriver.chrome.driver", "/Users/hernan/Documents/Proyectos/webprofiler/chromedriver");
+    void setUp(String chromedriverpath) throws Exception {
+        System.setProperty("webdriver.chrome.driver", chromedriverpath);
 
         DesiredCapabilities caps = DesiredCapabilities.chrome();
         LoggingPreferences logPrefs = new LoggingPreferences();
@@ -109,43 +109,6 @@ class WebProfiler {
         }
         return builder.toString();
     }
-        /*
-        lastelem = None
-def parse(command, driver):
-    global lastelem
-    command = command.lstrip()
-    if command[0] == "#":
-        return
-    rex = '([^ \r\n]*)[ \t\n]*(.*)'
-    res = re.search(rex, command)
-    comm = res.groups()[0].lower()
-    args = res.groups()[1]
-    print(">>>", comm, ": ", args)
-    if comm == 'go':
-        driver.get(args)
-    elif comm == 'findid':
-        lastelem = driver.find_element_by_id(args)
-    elif comm == 'findname':
-        lastelem = driver.find_element_by_name(args)
-    elif comm == 'findtext':
-        lastelem = driver.find_element_by_link_text(args)
-    elif comm == 'click':
-        lastelem.click()
-    elif comm == 'type':
-        escaped = False
-        for c in args:
-            if c == '\\':
-                escaped = True
-            elif c == 'n' and escaped:
-                lastelem.send_keys(keys.Keys.RETURN)
-            elif c == '\\' and escaped:
-                lastelem.send_keys('\\')
-            else:
-                escaped = False
-                lastelem.send_keys(c)
-
-
-         */
 
     private Stream<String> processLogs() throws Exception {
         HashMap<String, LinkedTreeMap<String, Object>> alllogs = new HashMap<>();
