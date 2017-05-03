@@ -1,6 +1,5 @@
 
 import java.io.*;
-import java.util.*;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.JCommander;
@@ -14,7 +13,7 @@ public class Main {
     String driverpath = "./chromedriver";
 
     @Parameter(names = "-input", description = "Input file name")
-    String input = "-";
+    private String input = "-";
 
     public static void main(String[] argv) throws Exception {
 
@@ -26,7 +25,7 @@ public class Main {
         main.run();
     }
 
-    public void run() throws Exception {
+    private void run() throws Exception {
 
         WebProfiler wp = new WebProfiler();
         wp.setUp();
@@ -43,4 +42,5 @@ public class Main {
         }
     }
 }
+
 
