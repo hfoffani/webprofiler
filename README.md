@@ -60,6 +60,10 @@ in a docker virtual drive. For instance:
 
 ### Command language
 
+The command language is very simple. Currently  `go`, `findid`, `findname`, `findtext`,
+`type` and `click` are implemented. You can use any Web Inspector tool from the main
+browsers to see the arguments for the find commands.
+
 Example:
 
     GO https://www.w3.org/
@@ -82,6 +86,17 @@ For the docker image just copy the target .jar file to the docker sub-directory
 and run the standard docker build from there:
 
     docker build -t herchu/webprofiler .
+
+
+### Future work
+
+Besides bugs the main features that need to be addressed are:
+
+1. Extend the command language.
+   Add more locators, specially XPath and css, and selectors (dropdown, radiobutton, etc.)
+2. Slendirize the image.
+   Change the base image and install the bare minimum. This will make it much more
+   smaller and could get rid off the spurious messages.
 
 
 ### Follow up
