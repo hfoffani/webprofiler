@@ -25,6 +25,8 @@ RUN \
 RUN mkdir /headless/webprofiler
 COPY web-profiler-1.0-jar-with-dependencies.jar /headless/webprofiler
 COPY webprofiler.sh /headless/webprofiler
+COPY webprofiler.sh /headless/webprofiler
+COPY w3c.tst /headless/webprofiler
 RUN chmod +x /headless/webprofiler/webprofiler.sh
 
 ## switch back to default user
