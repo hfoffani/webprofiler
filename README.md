@@ -11,7 +11,10 @@ There is a docker image to ease the usage.
 The fastest way to test webprofiler is to download the image with the built-in test of some of the W3C organization.
 
 - download the image
-- run
+
+    docker pull herchu/webprofiler
+
+- run the profiler
 
     docker run herchu/webprofiler /headless/webprofiler/webprofiler.sh
 
@@ -80,7 +83,9 @@ The program itself is written in Java 8. Just invoke Maven to build it:
     mvn clean compile assembly:single package 
 
 For the docker image just copy the target .jar file to the docker sub-directory
-and run the standard docker build from there.
+and run the standard docker build from there:
+
+    docker build -t herchu/webprofiler .
 
 
 ### Follow up
