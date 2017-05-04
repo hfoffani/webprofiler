@@ -13,9 +13,9 @@ The fastest way to test webprofiler is to download the image with the built-in t
 - download the image
 - run
 
-    docker run -v /tmp:/data herchu/webprofiler /headless/webprofiler/webprofiler.sh /data/w3c.tst
+    docker run herchu/webprofiler /headless/webprofiler/webprofiler.sh
 
-You see the following output:
+You will see the following output:
 
     USER_ID: 0, GROUP_ID: 0
 
@@ -51,12 +51,17 @@ And it ends with the performace logs. The ones you are looking for:
 Because of the complexity of the base image `consol/ubuntu-xfce-vnc` I am using it displays a lot of messages at
 startup. I will rebuild it using thinner layers of dependencies.
 
+Of course you want to use your own test suite. For this I recommend to place the command file
+in a docker virtual drive. For instance:
+
+    mkdir /tmp/data
+    cp MY-TEST.tst /tmp/data
+    docker run -v /tmp/data:/data herchu/webprofiler /headless/webprofiler/webprofiler.sh /data/MY-TEST.tst
 
 
 ### Command language
 
 Example:
-
 
     GO https://www.w3.org/
     FINDTEXT Web Security
