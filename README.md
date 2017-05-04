@@ -10,8 +10,10 @@ There is a docker image to ease the usage.
 - download the image
 - run
 
+    docker run -v /tmp:/data herchu/webprofiler /headless/webprofiler/webprofiler.sh /data/w3c.tst
 
-Because of the complexity of the base image '' I am using it displays a lot of messages at
+
+Because of the complexity of the base image `consol/ubuntu-xfce-vnc` I am using it displays a lot of messages at
 startup. I will rebuild it using thinner layers of dependencies.
 
 
