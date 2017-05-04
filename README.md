@@ -8,14 +8,10 @@ There is a docker image to ease the usage.
 
 ### Usage
 
-The fastest way to test webprofiler is to download the image with the built-in test of some of the W3C organization.
-
-- download the image
+The fastest way to test webprofiler is to download the image with the built-in test of some of the W3C organization
+and run the container:
 
     docker pull herchu/webprofiler
-
-- run the profiler
-
     docker run herchu/webprofiler /headless/webprofiler/webprofiler.sh
 
 You will see the following output:
