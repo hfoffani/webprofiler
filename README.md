@@ -11,17 +11,37 @@ There is a docker image to ease the usage.
 - run
 
 
+Because of the complexity of the base image '' I am using it displays a lot of messages at
+startup. I will rebuild it using thinner layers of dependencies.
+
+
 ### Command language
 
 Example:
 
-  GO http://www.wikipedia.org
-  
+
+    GO https://www.w3.org/
+    FINDTEXT Web Security
+    CLICK
+    FINDNAME q
+    TYPE rfc 822\n
+    FINDTEXT RFC 822: Standard for the Format of Arpa Internet Text Messages
+    CLICK
+
 
 ### Build
 
 If you want to build the system you will need the Chrome browser and the Chrome Driver.
 The program itself is written in Java 8. Just invoke Maven to build it:
 
-  mvn
-  
+    mvn clean compile assembly:single package 
+
+For the docker image just copy the target .jar file to the docker sub-directory
+and run the standard docker build from there.
+
+
+### Follow up
+
+Just open an issue or tweet me if you like.
+
+Thanks!
