@@ -128,6 +128,17 @@ class WebProfiler {
         return builder.toString();
     }
 
+    private String getName(String headers) {
+        int idxFrom = headers.indexOf(" ");
+        int idxTo = headers.indexOf(" ", idxFrom+1);
+        String name = headers.substring(idxFrom+1, idxTo);
+        int idxSlash = name.lastIndexOf("/");
+        if (idxSlash < name.length()-2) {
+            name = name.substring(idxSlash+1, name.length());
+        }
+        return name;
+    }
+
     private Stream<String> processLogs() throws Exception {
         HashMap<String, LinkedTreeMap<String, Object>> alllogs = new HashMap<>();
         List<String> allkeys = new LinkedList<>();
@@ -145,13 +156,12 @@ class WebProfiler {
                 String key = (String)pars.get("requestId");
                 LinkedTreeMap resp = (LinkedTreeMap)pars.get("response");
                 if (resp.containsKey("requestHeadersText")) {
-                    String rqmethod = (String)resp.get("requestHeadersText");
-                    int idx = rqmethod.indexOf("\r\n", 0);
-                    rqmethod = rqmethod.substring(0, idx);
+                    String headers = (String)resp.get("requestHeadersText");
+                    String name = getName(headers);
                     LinkedTreeMap<String, Object> log = new LinkedTreeMap<>();
-                    log.put("rqmethod", rqmethod);
+                    log.put("name", name);
                     log.put("url", resp.get("url"));
-                    log.put("requestId", key);
+                    // log.put("requestId", key);
                     log.put("starts", ((LinkedTreeMap)resp.get("timing")).get("requestTime"));
                     allkeys.add(key);
                     alllogs.put(key, log);
