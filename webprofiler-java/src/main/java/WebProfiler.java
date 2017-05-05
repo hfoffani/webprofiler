@@ -82,6 +82,15 @@ class WebProfiler {
                 case "findtext":
                     lastelem = driver.findElement(By.linkText(args));
                     break;
+                case "findcss":
+                    lastelem = driver.findElement(By.cssSelector(args));
+                    break;
+                case "findxpath":
+                    lastelem = driver.findElement(By.xpath(args));
+                    break;
+                case "findclass":
+                    lastelem = driver.findElement(By.className(args));
+                    break;
                 case "click":
                     lastelem.click();
                     break;
