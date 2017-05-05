@@ -78,7 +78,8 @@ Example:
 ### Build
 
 If you want to build the system you will need the Chrome browser and the Chrome Driver.
-The program itself is written in Java 8. Just invoke Maven to build it:
+The program itself is written in Java 8. Just invoke Maven from the `webprofiler-java`
+directory to build it:
 
     mvn clean compile assembly:single package 
 
