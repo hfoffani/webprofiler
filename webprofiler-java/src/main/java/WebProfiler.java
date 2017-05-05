@@ -12,6 +12,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.*;
 import org.openqa.selenium.logging.*;
 import org.openqa.selenium.remote.*;
+import org.openqa.selenium.support.ui.Select;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
@@ -96,6 +97,10 @@ class WebProfiler {
                     break;
                 case "type":
                     lastelem.sendKeys(expandedString(args));
+                    break;
+                case "select":
+                    Select sel = new Select(lastelem);
+                    sel.selectByVisibleText(args);
                     break;
             }
         }

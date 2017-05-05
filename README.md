@@ -93,11 +93,10 @@ and run the standard docker build from there:
 
 Besides bugs the main features that need to be addressed are:
 
-1. Extend the command language.
-   Add more locators, specially XPath and css, and selectors (dropdown, radiobutton, etc.)
-2. Slendirize the image.
+1. Slendirize the image.
    Change the base image and install the bare minimum. This will make it much more
    smaller and could get rid off the spurious messages.
+2. Output to HAR format.
 
 
 ### Follow up
