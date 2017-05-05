@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# == 0 ]; then
-    CMDFILE=w3c.tst
+    CMDFILE=demo.tst
 else
     CMDFILE=$1
 fi
