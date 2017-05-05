@@ -83,8 +83,7 @@ directory to build it:
 
     mvn clean compile assembly:single package 
 
-For the docker image just copy the target .jar file to the docker sub-directory
-and run the standard docker build from there:
+For the docker image just run the standard docker build from the docker subdirectory:
 
     docker build -t herchu/webprofiler .
 
