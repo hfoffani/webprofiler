@@ -12,24 +12,20 @@ The fastest way to test webprofiler is to download the image with the built-in t
 and run the container:
 
     docker pull herchu/webprofiler
-    docker run herchu/webprofiler /headless/webprofiler/webprofiler.sh
+    docker run herchu/webprofiler /home/headless/webprofiler.sh
 
 You will see the following output:
 
-    USER_ID: 0, GROUP_ID: 0
-
-    ------------------ update chromium-browser.init ------------------
-    .
-    .
-    . a lot of messages
-    .
-    .
-    .
+    Starting virtual X frame buffer: Xvfb.
+    Starting ChromeDriver 2.29.461571 (8a88bbe0775e2a23afda0ceaf2ef7ee74e822cc5) on port 18530
+    Only local connections are allowed.
+    May 07, 2017 10:56:53 AM org.openqa.selenium.remote.ProtocolHandshake createSession
+    INFO: Attempting bi-dialect session, assuming Postel's Law holds true on the remote end
+    May 07, 2017 10:56:56 AM org.openqa.selenium.remote.ProtocolHandshake createSession
+    INFO: Detected dialect: OSS
 
 Then the output of the program itself. First the steps of the program:
 
-    .
-    .
     Run: GO https://www.w3.org/
     Run: FINDTEXT Web Security
     Run: CLICK
@@ -47,22 +43,21 @@ And it ends with the performace logs. The ones you are looking for:
     ... etc ...
 
 
-Because of the complexity of the base image `consol/ubuntu-xfce-vnc` I am using it displays a lot of messages at
-startup. I will rebuild it using thinner layers of dependencies.
+This image is mostly entirely based on Selenium's ones.
 
 Of course you want to use your own test suite. For this I recommend to place the command file
 in a docker virtual drive. For instance:
 
     mkdir /tmp/data
     cp MY-TEST.tst /tmp/data
-    docker run -v /tmp/data:/data herchu/webprofiler /headless/webprofiler/webprofiler.sh /data/MY-TEST.tst
+    docker run -v /tmp/data:/data herchu/webprofiler /home/headless/webprofiler.sh /data/MY-TEST.tst
 
 
 ### Command language
 
-The command language is very simple. Currently  `go`, `findid`, `findname`, `findtext`,
-`type` and `click` are implemented. You can use any Web Inspector tool from the main
-browsers to see the arguments for the find commands.
+The command language is very simple. Currently  `go`, `findid`, `findname`, `findtext`, `findxpath`,
+`findcss`, `type`,  `click` and `select` are implemented. You can use any Web Inspector tool from
+the main browsers to see the arguments for the find commands.
 
 Example:
 
@@ -90,12 +85,11 @@ For the docker image just run the standard docker build from the docker subdirec
 
 ### Future work
 
-Besides bugs the main features that need to be addressed are:
+Besides bugs the main features that would nice to be addressed are:
 
-1. Slendirize the image.
-   Change the base image and install the bare minimum. This will make it much more
-   smaller and could get rid off the spurious messages.
-2. Output to HAR format.
+1. API for the output logs.
+1. Debugging parameters (allow for more verbose output).
+1. Output to HAR format.
 
 
 ### Follow up
