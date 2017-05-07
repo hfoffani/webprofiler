@@ -15,6 +15,7 @@ import org.openqa.selenium.remote.*;
 import org.openqa.selenium.support.ui.Select;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.internal.LinkedTreeMap;
 
 
@@ -55,8 +56,9 @@ class WebProfiler {
     }
 
     void showLogs() throws Exception {
-        processLogs()
-                .forEach(System.out::println);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String serialized = gson.toJson(processLogs().toArray());
+        System.out.println(serialized);
     }
 
     void RunCommand(String commandline) {
@@ -139,7 +141,7 @@ class WebProfiler {
         return name;
     }
 
-    private Stream<String> processLogs() throws Exception {
+    private Stream<LinkedTreeMap> processLogs() throws Exception {
         HashMap<String, LinkedTreeMap<String, Object>> alllogs = new HashMap<>();
         List<String> allkeys = new LinkedList<>();
 
@@ -180,6 +182,6 @@ class WebProfiler {
 
         return allkeys
                 .stream()
-                .map(k -> gson.toJson(alllogs.get(k)));
+                .map(alllogs::get);
     }
 }
