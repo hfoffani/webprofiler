@@ -36,12 +36,33 @@ Then the output of the program itself. First the steps of the program:
 
 And it ends with the performace logs. The ones you are looking for:
 
-    {"rqmethod":"GET / HTTP/1.1","url":"https://www.w3.org/","requestId":"306.1","starts":8174.135192,"ends":8174.465221,"time":330.02900000064983}
-    {"rqmethod":"GET /2008/site/css/minimum HTTP/1.1","url":"https://www.w3.org/2008/site/css/minimum","requestId":"306.2","starts":8174.745157,"ends":8174.876674,"time":131.51699999980337}
-    {"rqmethod":"GET /2008/site/css/advanced HTTP/1.1","url":"https://www.w3.org/2008/site/css/advanced","requestId":"306.3","starts":8174.747878,"ends":8174.898895,"time":151.01700000013807}
-    {"rqmethod":"GET /2008/site/images/logo-w3c-mobile-lg HTTP/1.1","url":"https://www.w3.org/2008/site/images/logo-w3c-mobile-lg","requestId":"306.4","starts":8174.899451,"ends":8175.034737,"time":
-    ... etc ...
+    [
+      {
+        "name": "/",
+        "url": "https://www.w3.org/",
+        "starts": 1434232.137751,
+        "ends": 1434232.301701,
+        "time": 163.94999995827675
+      },
+      {
+        "name": "minimum",
+        "url": "https://www.w3.org/2008/site/css/minimum",
+        "starts": 1434232.335915,
+        "ends": 1434232.462256,
+        "time": 126.34099996648729
+      },
+      ... etc ...
+      {
+        "name": "bct.png",
+        "url": "https://www.w3.org/2008/site/images/bct.png",
+        "starts": 1434637.673867,
+        "ends": 1434637.789882,
+        "time": 116.0150000359863
+      }
+    ]
 
+If you order the output by the `starts` key you will be able to display the output as
+a waterfall chart for instance.
 
 This image is mostly entirely based on Selenium's ones.
 
