@@ -115,6 +115,6 @@ Besides bugs the main features that would nice to be addressed are:
 
 ### Follow up
 
-Just open an issue or tweet me if you like.
+Just open an issue or tweet me at [@herchu](http://twitter.com/herchu)
 
 Thanks!
